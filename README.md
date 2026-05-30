@@ -82,16 +82,16 @@ The application offers multiple demonstration modes:
 
 ```bash
 # Navigate to project directory
-cd "Data Security Pre-Final"
+cd "PRE-FINAL DATA SEC"
 
 # Run the interactive system
-python secure_bank.py
+python bank_transaction_sim.py
 ```
 
 Once running, select from the main menu:
 - Option 1: Full bank transaction simulation
 - Option 2: AES-128 standalone encryption demo
-- Option 3: RSA-512 standalone encryption demo
+- Option 3: RSA standalone encryption demo
 - Option 4: View system architecture diagrams
 - Option 5: Exit
 
@@ -99,10 +99,10 @@ Once running, select from the main menu:
 
 ### Basic Encryption Flow
 ```python
-from secure_bank import hybrid_encrypt, generate_rsa_keys
+from bank_transaction_sim import hybrid_encrypt, generate_rsa_keys
 
 # Generate RSA keys
-public_key, private_key = generate_rsa_keys(512)
+public_key, private_key = generate_rsa_keys(256)
 
 # Encrypt transaction
 transaction = "FROM:ALICE | TO:BOB | AMOUNT:$500"
@@ -112,7 +112,7 @@ package = hybrid_encrypt(transaction, public_key)
 
 ### Decryption Flow
 ```python
-from secure_bank import hybrid_decrypt
+from bank_transaction_sim import hybrid_decrypt
 
 # Decrypt using private key
 plaintext = hybrid_decrypt(package, private_key)
@@ -135,9 +135,9 @@ print(plaintext)  # "FROM:ALICE | TO:BOB | AMOUNT:$500"
 ## Project Structure
 
 ```
-Data Security Pre-Final/
-├── README.md              # This file
-└── secure_bank.py         # Complete implementation (800+ lines)
+PRE-FINAL DATA SEC/
+├── README.md                      # This file
+└── bank_transaction_sim.py        # Complete implementation (800+ lines)
     ├── AES-128 Functions
     │   ├── gmul()                  # Galois Field multiplication
     │   ├── sub_bytes()             # S-Box substitution
@@ -191,13 +191,13 @@ Encryption (10 rounds per block):
 CBC Mode: Each plaintext block XORed with previous ciphertext block before encryption
 ```
 
-### RSA-512 Key Generation
+### RSA-256 Key Generation
 ```
-1. Generate random 256-bit probable prime p using Miller-Rabin test
-2. Generate random 256-bit probable prime q (≠ p)
-3. Compute n = p × q (512-bit modulus)
+1. Generate random 128-bit probable prime p using Miller-Rabin test
+2. Generate random 128-bit probable prime q (≠ p)
+3. Compute n = p × q (256-bit modulus)
 4. Compute φ(n) = (p-1)(q-1) (Euler's totient)
-5. Select public exponent e = 17 (or 3 if needed)
+5. Select public exponent e = 65537 (or 3 if needed)
 6. Compute d = e⁻¹ mod φ(n) using Extended Euclidean Algorithm
 7. Public key = (e, n); Private key = (d, n)
 
@@ -225,29 +225,14 @@ Receiver (Bank):
 ### ✅ Educational Security
 This implementation demonstrates cryptographic algorithms correctly for learning purposes.
 
-### ⚠️ Important Limitations
-1. **Key Size** — 512-bit RSA is not suitable for production (use 2048+ bits)
-2. **Random Generation** — Uses Python's `random` module (not cryptographically secure)
-3. **No Authentication** — Lacks signatures, MACs, or authentication verification
-4. **Timing Attacks** — Not protected against side-channel attacks
-5. **Memory** — Does not zero sensitive data in memory
-6. **No TLS** — Network transmission not encrypted (demo uses local memory)
 
-### For Production Use
-- Use industry libraries: `cryptography`, `PyCryptodome`, OpenSSL
-- Implement proper key management and storage (HSM, key vault)
-- Use cryptographically secure randomness: `secrets` module or OS RNG
-- Add digital signatures and message authentication codes (HMAC, DSA)
-- Employ TLS/SSL for network transmission
-- Follow OWASP and NIST cryptographic guidelines
-- Conduct security audits and penetration testing
 
 ## Testing & Validation
 
 Run the program and explore each demo mode:
 
 ```bash
-python secure_bank.py
+python bank_transaction_sim.py
 
 # Try these flows:
 # 1. Create transactions between ALICE, BOB, CHARLIE
