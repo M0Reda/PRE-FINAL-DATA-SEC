@@ -655,7 +655,7 @@ def main():
     print("-"*62)
 
     print(f"  [i]    Generating RSA-256 key pair for SecureBank ...")
-    bank_public_key, bank_private_key = generate_rsa_keys(num_bits=512)
+    bank_public_key, bank_private_key = generate_rsa_keys(num_bits=256)
     print(f"  [OK]   RSA-256 key pair ready.\n")
 
     bank = Bank("SecureBank")
