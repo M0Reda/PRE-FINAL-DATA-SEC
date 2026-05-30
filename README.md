@@ -271,7 +271,7 @@ This project demonstrates:
 ## References
 
 - AES Standard (FIPS 197)
-- RSA Cryptography Specifications (PKCS #1)
+- RSA Cryptography Specifications (PKCS #7)
 - Galois Field arithmetic for cryptography
 
 ## License
